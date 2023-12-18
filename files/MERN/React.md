@@ -137,6 +137,7 @@ useEffect(() => {
   //Runs on every render
 });
 ```
+
 ```jsx
 // Empty array is passed
 useEffect(() => {
@@ -194,3 +195,30 @@ axios.get("http://localhost:3001/notes").then((response) => {
 });
 ```
 
+Put method in http
+
+```jsx
+axios.put(url, changedNote).then((response) => {
+  setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
+});
+```
+
+This method, name `put` changes the value of an object in the server.
+
+<br>
+
+We can isolate the axios functions in a different module and make the usage of axios more easier according to our webapp. Example: 
+
+```js
+const getAll = () => {
+    const request = axios.get(baseUrl);
+    return request.then(response => response.data)
+}
+```
+
+So now in our main app we can just do 
+```js
+services.getAll().then(data => {console.log(data)})
+```
+
+this saves us a lot of boiler plate code in our main app
