@@ -67,6 +67,7 @@ const App = () => {
 ```
 
 As we called the Hello component several times in the above example, it will give an output like
+
 ![Example](/files/assets/00001.png)
 
 This feature of react will be essential for us to easily embed data into the components without much of a hassle
