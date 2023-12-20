@@ -64,3 +64,18 @@ app.get("/api/notes", (req, res) => {
 ```
 
 when, the user will go to `localhost:3001/api/notes` they will see a json object being output there. This is how we make routes in express.
+
+We can also accept dynamic route names by using the `params` feature of express. 
+
+```js
+app.get("/api/notes/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const note = notes.find((note) => note.id === id);
+  response.json(note);
+});
+```
+
+As you can see here, we are taking one additional route in the url with alias name `id` we have added a semicolon in front of that to identify it as an param, so now if someone visits **localhost:30001/api/notes/1**, we can find the note with id 1 using js and return only that single note
+
+We can access the params using `request.paramas.<param name>`
+
