@@ -1,4 +1,4 @@
-#### How Java runs
+### How Java runs
 
 `.java file`<br>then<br>`.class file (byte code)` needs JVM to run<br>then<br>`Machine code`
 
