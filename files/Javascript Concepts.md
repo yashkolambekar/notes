@@ -64,3 +64,7 @@ we get the data back from the promise in the above way, once the promise has bee
 The code inside then is executed if promise is resolved, and the code inside catch is executed if the promise is rejected.
 
 We also have `.finally()` method at the end which runs irrespective of resolve or reject. It should be run at the last.
+
+
+## Async Await
+

@@ -26,32 +26,88 @@ mongoose.connect(url)
 
 First we connect mongoose using the url
 
+Then we need to create a Schema using `mongoose.Schema`, that method takes in an object and then we have to save that schema in a new constant
+
 ```js
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
+const userSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    location: String
 })
 ```
 
-We make a new schema named `noteSchema` using the `mongoose.Schema` method, this will be used to define our schema which we can use to make new objects
+then we have to make a model using that Schema
+using `mongoose.model`
 
 ```js
-const Note = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model("User", userSchema)
 ```
 
-after that we can make a new `note` object using the `Note` model
+To create a new user in the database, we can do
 
 ```js
-const note = new Note({
-  content: 'HTML is Easy',
-  important: false,
-})
+User.create({name: "Something", age: 18, location: "Mumbai"})
 ```
 
-After we have entered the dat in the note object, we can save the object in our database.
+it will return a new user object, we can save it in a new object
 
 ```js
-note.save().then(result => {
-  console.log('note saved!')
-})
+const yash = User.create({name: "Something", age: 18, location: "Mumbai"})
 ```
+
+If we need to edit some detail in the created object, we can edit it directly 
+
+```js
+yash.location = "Bharat";
+yash.save()
+```
+
+`.save()` and `.create()` are asynchronous functions, so we might want to use them inside function with `async await` to get proper callbacks
+
+We can specify more properties in the Schema by using Objects as input. For example
+
+```js
+age : {
+    type: Number,
+    required: true,
+    default: 18,
+    min:1,
+    max: 150
+}
+```
+
+There are other flags too which can be used
+
+```js
+{
+    lowercase: true,
+    uppercase: true,
+}
+```
+
+We can also write custom validation with validate key
+
+```js
+{
+    ...
+    validate: {
+        validator: value => value % 2 == 0,
+        message: props => `${props.value} is not even`
+    }
+    ...
+}
+```
+
+`validator` is a function with `value` as a parameter which we test for some checks and return true if we want to keep it and false if it is invalid
+
+`message` is the function that returns the message which should be printed in the console with props as a object being sent as a parameter
+
+**Important**: Functions such as `findOneAndUpdate` and `findManyAndUpdate` do not go through validations, so we should refrain from using them, we should rather find our items with `.findById` or `.find` and then edit them and the do `.save()` to go through the validation checks.
+
+Some methods and how they work
+
+`findById`: returns one object which matches the id
+
+`find`: returns an array of all the objects that match
+
+`findOne`: returns the first object that matches the condition
