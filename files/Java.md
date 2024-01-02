@@ -30,6 +30,8 @@ void is the return type of the function
 
 <hr>
 
+### Output
+
 ```java
 System.out.println("Hello, World!");
 // and 
@@ -75,3 +77,73 @@ boolean check = false;
 
 Boolean is boolean!
 
+<hr>
+
+### Taking Inputs
+
+We have a class named `Scanner` which we need to import from `java.util.Scanner`. We then make an object from that class, generally named `input` and we specify where to take the input from. And then we start using it.
+
+```java
+Scanner input = new Scanner(System.in);
+int rollno = input.nextInt();
+```
+
+in the above code, in the first line we are defining the input variable which is of Wrapper Type Scanner and we are making it out of the class Scanner using the `new Scanner()` with `System.in` as the parameter. It tells the object where to take the input from
+
+then while we want to take input from the user, we use the input object with the `nextInt()` function, which stands for "next Integer" and we store it in a variable with type integer.
+
+There are a lot of other functions/methods as well which can be used to take different types of inputs from the users.
+
+For strings:
+
+```java
+String name = next(); // only takes first word
+```
+
+```java
+String sentence = nextLine(); // Takes whole line
+```
+
+<hr>
+
+### Type conversion and TypeCasting
+
+```java
+float num = input.nextFloat();
+```
+
+If we give integer as an output to the operation that requires a float, it converts the integer into float. 
+
+But if we try to use float where integer is required, it throws an error.
+
+This is because floats are greater than integer. So no data is loss while converting integer to float. But when we convert floats to integer. The data behind the decimal point is lost. So that is not acceptable.
+
+To typecast or explicitly convert floats to integers, we can do something like this :
+
+```java
+int num = (int)(88.99f); // num = 88
+```
+
+The numbers behind the decimal point are lost in the conversion process but we get an integer number.
+
+<hr>
+
+### Loops
+
+While loop: 
+
+```java
+int count = 1;
+while(count != 5){
+    System.out.println(count);
+    count++;
+}
+```
+
+For loop: 
+
+```java
+for(int count = 1; count != 5; count++){
+        System.out.println(count);
+}
+```
