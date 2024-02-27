@@ -79,6 +79,12 @@ Boolean is boolean!
 
 <hr>
 
+### Comparison Operators
+
+`==` is used only for primitive datatypes, for Wrapper types such as `String`, we use `.equals(<value>)` for the same.
+
+<hr>
+
 ### Taking Inputs
 
 We have a class named `Scanner` which we need to import from `java.util.Scanner`. We then make an object from that class, generally named `input` and we specify where to take the input from. And then we start using it.
