@@ -3,223 +3,67 @@
 To create a react app, we do
 
 ```console
-npm create vite@latest appname -- --template react
+npm create vite@latest appname
 ```
 
 This created a react a new react app with vite, in a newfolder named appname
-We can do `npm run dev` to start the server and check our react app in the browser
+We can do `npm run dev` to start the server and check our react app in the browser.
 
-Everything in a React app that can be seen on the browser is a react component, including the main App.jsx file, so the App.jsx is a component in itself.
+We can also use React using a cdn but it is very limiting and not at all recommended but it can be done!
 
-This is how a component looks like
+React is basically a declarative way of writing Javscript for the frontend meaning, me tell react what we wan to see on the screen and React does it for us under the hood using javascript
 
-```jsx
-const App = () => {
-  let a = 12;
-  let b = 12;
-  return (
-    <div>
-      <p>Hello world</p>
-      <p>
-        {a} plus {b} is {a + b}
-      </p>
-    </div>
-  );
-};
+<hr>
 
-export default App;
-```
+Although JSX looks like HTML, but it is not HTML, so some features might be written in a different way.
 
-The returned value is actually what we will be seeing on the frontend when that component is used somewhere. And we can also evaluate js within the html using curly braces.
-
-The first letter of the react component name should always be capital or else react will think that it is a normal html component. This should be kept in mind everytime.
-
-We can define many different components in a single file but only one can be exported from a single file.
-
-We can pass parameters to a component, known as props, this enables us to serve dynamic data to the components.
+<hr>
 
 ```jsx
-const Hello = (props) => {
-  return (
-    <div>
-      <p>
-        Hello {props.client_name}, you are {props.age} years old!
-      </p>
-    </div>
-  );
-};
-```
+const Component = () => {
 
-This Hello component takes in two props `client_name` and `age` . We have to pass the props when we are calling the component.
+  console.log("Component added");
 
-```jsx
-const App = () => {
-  return (
-    <div>
-      <p>Greetings</p>
-      <Hello client_name="Yash" age="18" />
-      <Hello client_name="Sai" age="19" />
-      <Hello client_name="Siddhi" age="17" />
-      <Hello client_name="Bhakti" age="16" />
-    </div>
-  );
-};
-```
-
-As we called the Hello component several times in the above example, it will give an output like
-
-![Example](/files/assets/00001.png)
-
-This feature of react will be essential for us to easily embed data into the components without much of a hassle
-
-In react we need to give every component an outer wrapper or the root element and without it, the react compiler will throw errors, to avoid this, we can use on smart trick, we can create an empty element and use it as the root element in our component, it won’t be render in our browser and we can easily bypass the need of the extra root element div too!
-
-```jsx
-const App () => {
-    return(
-        <>
-            <p>Greetings</p>
-            <Hello client_name="Yash" age="18">
-            <Hello client_name="Sai" age="18">
-            <Hello client_name="Vishal" age="29">
-            <Hello client_name="Bhavin" age="22">
-        </>
-    )
+  return(
+    <>
+      <h1>Hello this is a component</h1>
+    </>
+  )
 }
-```
 
-We can also take in props directly through object destructuring
+export default Component;
+```
+This is an example of how component files should be.
+
+<hr>
+
+To use components in our App or within another components we first import the Components in the page using
 
 ```jsx
-const Hello = ({name, age}) => {
+import Appname from "./Components/Appname";
+```
+
+And then use them inside our jsx code like
+
+```jsx
+...
+<center>
+  <Appname />
+    <div className="container px-4">
     ...
-}
 ```
 
-##### useState
+<hr>
 
-States are like variables that store values that can be used in the app like normal variables but the thing that makes it different from the variables is that the component is re-rendered when the value of the variable is updated.
+### Map function
 
-To use states in our react app, we have to
+We use map function to create multiple components from an array of values for example,
 
 ```jsx
-import { useState } from "react";
+arrayOfValues.map((item) => (<li>This is our {item}</li>))
 ```
 
-Once, that is done we can start using states in our react app
+So for each value in the array, we will get a li element which says This is our 'value'. 
 
-```jsx
-const [counter, setCounter] = useState(0);
-```
-
-Here, we have defined the state (variable) named counter and a function named `setCounter` which updates the value of counter and sets its equal to the parameter passed in that function.
-
-We can create a function to add or subtract or replace the values of that state, using the setState function inside it.
-
-```jsx
-setTimeout(() => setCounter(counter + 1), 1000);
-```
-
-And we can let it run on clicks of a button too
-
-```jsx
-<button onClick={() => setCounter(counter + 1)}>plus</button>
-```
-
-Ideally, we should create the functions outside the jsx and then reference them inside jsx when we need
-
-##### useEffect
-
-`useEffect` is another React hook which we will be extremely helpful for us. This hook runs in three different condition based on the parameters passed.
-
-```jsx
-// No dependency is passed
-useEffect(() => {
-  //Runs on every render
-});
-```
-
-```jsx
-// Empty array is passed
-useEffect(() => {
-  //Runs only on the first render
-}, []);
-```
-
-```jsx
-// Prop or state value is passed
-useEffect(() => {
-  //Runs on the first render
-  //And any time any dependency value changes
-}, [prop, state]);
-```
-
-We can put the first parameter of the `useEffect` hook into a function and then we can reference then function inside the hook, it will work the same way.
-
-<br>
-
-Items generated by map or other iterable functions should have a key attribute / prop compulsorily
-
-```jsx
-<ul>
-    {notes.map(note) => (
-        <li key={note.id}>{note.content}</li>
-    )}
-</ul>
-```
-
-### Axios
-
-Axios is a module for http requests, this module reduces the hustle, bustle that goes behind making http requsts
-
-To install it we have to run
-
-```console
-npm install axios
-```
-
-Axios works on the basis of javascript promises, for example, to make a simple get request we can do
-
-```jsx
-const promise = axios.get("http://localhost:3001/notes");
-promise.then((response) => {
-  console.log(response);
-});
-```
-
-However we do not handle promises in this way, we use `then` and `catch`
-
-```jsx
-axios.get("http://localhost:3001/notes").then((response) => {
-  const notes = response.data;
-  console.log(notes);
-});
-```
-
-Put method in http
-
-```jsx
-axios.put(url, changedNote).then((response) => {
-  setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
-});
-```
-
-This method, name `put` changes the value of an object in the server.
-
-<br>
-
-We can isolate the axios functions in a different module and make the usage of axios more easier according to our webapp. Example: 
-
-```js
-const getAll = () => {
-    const request = axios.get(baseUrl);
-    return request.then(response => response.data)
-}
-```
-
-So now in our main app we can just do 
-```js
-services.getAll().then(data => {console.log(data)})
-```
-
-this saves us a lot of boiler plate code in our main app
+But, while using map function or other such functions to generate components from list of values, we need to give a `key` prop to each item which helps react in imporving performance while regenerating the componenets if something is changed. <br>
+This `key` prop must be unique and discrete!
