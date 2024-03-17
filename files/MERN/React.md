@@ -60,10 +60,32 @@ And then use them inside our jsx code like
 We use map function to create multiple components from an array of values for example,
 
 ```jsx
-arrayOfValues.map((item) => (<li>This is our {item}</li>))
+<ul>
+  {arrayOfValues.map((item) => (<li>This is our {item}</li>))}
+</ul>
 ```
 
 So for each value in the array, we will get a li element which says This is our 'value'. 
 
 But, while using map function or other such functions to generate components from list of values, we need to give a `key` prop to each item which helps react in imporving performance while regenerating the componenets if something is changed. <br>
 This `key` prop must be unique and discrete!
+
+The key is not shown in the final dom but is used in virtual-dom of react
+
+<hr>
+
+### Conditional rendering
+
+We cannot use else if conditions inside jsx because it is an expression and not a code block, so we need to use ternary operators for conditional rendering insdie the jsx.
+For example,
+
+```jsx
+{someExpression ? <h1>True value</h1> : <h2>False value</h2>}
+```
+
+This is how we can use ternary operators inside jsx for conditional rendering it can be used for various interactive ui purposes
+
+We can also use `&&` and `||` for conditional rendering based on the concept of truthy and falsy values. 
+
+<hr>
+
