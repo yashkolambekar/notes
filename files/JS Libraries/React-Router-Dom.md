@@ -68,7 +68,44 @@ We can have multiple parameters as well like `/users/:id/:messageid`
 
 If we have dynamic routes and hardcoded routes that have the same schema, for example
 
-```jsx
+```jsx 
 <Route path="/app/:username" element={<User/>} />
 <Route path="/app/info" element={<Info/>} />
 ```
+
+<hr>
+
+### Nested Routes
+
+We can also have nested routes in our react app
+
+```jsx
+<Routes>
+    <Route path="/books">
+        <Route path=":id" element={<Book/>} />
+        <Route path="new" element={<NewBook/>} />
+    </Route>
+</Routes>
+```
+
+Now, this works as we expect it to work, but, what if we want to show some default wrapper or component on each page and we want just want the specific content to change, we can do it using
+
+```jsx
+<Route path="/books" element={<MainBook/>} >
+        <Route path=":id" element={<Book/>} />
+        <Route path="new" element={<NewBook/>} />
+</Route>
+```
+
+but just doing this will not make it work, we need to add an component named `<Outlet/>` wherever we want the nested route code to appear. So in the `<MainBook/>`
+
+```jsx
+<>
+    <h1>This is a book</h1>
+    <div style={{"padding":"20px"}}>0
+        <Outlet/>
+    </div>
+</>
+```
+
+We can also wrap all such routes in a parent route without defining the parent's path, it will remove the prefix path but will work the same way using `outlet`
