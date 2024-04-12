@@ -1,70 +1,48 @@
-## Callbacks
+# Javascript
 
-Callbacks are the functions that are passed inside the functions which will execute once the main function is executed.
+Javascript is a loosely typed and compiled-on-runtime language.
+
+## Callback functions
+
+A function which is passed as an argument in a function is called a callback function
+
+for example :
 
 ```js
-const hello = (cb) = {
-    console.log("What's up?")
-    cb();
+function sum(num1, num2, functionToCall){
+    let result = num1 + num2;
+    functionToCall(result)
 }
 
-const bye = () = {
-    console.log("See ya!")
+function displayResult(data) {
+    console.log("Result of the sum is : " + data);
 }
 
-hello(bye); 
+function displayResultPassive(data) {
+    console.log("Sum's result is : " + data);
+}
+
+sum(12, 20, displayResult)
 ```
 
-The output of the `hello(bye)` is **What's up? See ya!**. First, the because hello function is run and then, the bye function is run. 
+Here, we passed `displayResult` as an argument to the function `sum()` and `sum()` used that inside itself. We could have passed anything that we like, and processed the `result` variable as per our convenience
 
-Callbacks can be useful for various purposes where we need to perform an action after the completion of the current function or process like reading a file, fetching data from api or some complex calculations. That is where callback functions are used.
+## Classes
 
-Although callbacks are old, the new way to deal with such things are calle Promises
+## Other Small things
 
-## Promises
+### Map vs ForEach
 
-Promises are used as alternatives to the Callback functions. Promises are way better than callback functions.
-
-First we have to create a promise
+Map and ForEach array methods are quite alike, the only difference being, The returned elements in the `.map()` are stored in the new returned array and `.forEach()` just performs some action on each element and does not return anything, both have similar syntax
 
 ```js
-const check = new Promise((resolve, reject) => {
-
-    const age = fetchAgeFromGovt()
-    const credits = fetchCreditsFromBank()
-
-    if(age > 18 && credits > 100){
-
-        resolve({"license": "full"})
-
-    }else if(age < 18){
-
-        reject({"error": "Below 18"})
-
-    }else{
-
-        reject({"error": "Insufficient credits"})
-        
-    }
+arr.forEach(item => {
+    console.log(item + 99);
 })
-```
+// Logs each element + 99, does not return anything
 
-We have declared a promise above with the name check. We are imitating a loan approval system. Let's say it takes time for govt servers to fetch age and it takes even more time for credits to be fetched from the bank, so we will need to wait for those values to be fetched to do anything further. We can use callback functions, but here we will need a lot of them, this will create a callback hell. So we put it inside a promise.
-
-```js
-check.then((message) => {
-    console.log(message)
-}).catch((error) => {
-    console.log(error)
+arr.map(item => {
+    return item + 99;
 })
+// Returns new array with 99 added to each element
 ```
-
-we get the data back from the promise in the above way, once the promise has been fulfilled or rejected. It can be accessed through `.then()` and `.catch()` methods.
-
-The code inside then is executed if promise is resolved, and the code inside catch is executed if the promise is rejected.
-
-We also have `.finally()` method at the end which runs irrespective of resolve or reject. It should be run at the last.
-
-
-## Async Await
-
