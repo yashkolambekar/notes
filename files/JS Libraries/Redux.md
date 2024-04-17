@@ -29,22 +29,82 @@ Reducers are the main place where logic for the actions is stored, we pass the s
 
 Reducers should not modify the state, reducer has to copy the state and modify that new variable and then update the state using proper methods.
 
-```js
-const initialState = { value: 0 }
+### Store
 
-function counterReducer(state = initialState, action) {
-  // Check to see if the reducer cares about this action
-  if (action.type === 'counter/increment') {
-    // If so, make a copy of `state`
-    return {
-      ...state,
-      // and update the copy with the new value
-      value: state.value + 1
-    }
-  }
-  // otherwise return the existing state unchanged
-  return state
-}
+The store is where we keep all our data of the redux app. This is the central hub for our data.
+
+We pass the reducers to the store while creating it and we get a `getState()` function which we can use to access the store.
+
+
+
+### Dispatch
+
+The dispatch method is provided by the store and the dispatch method is the only way in which we can update the state. 
+
+
+## Using Redux in React
+
+To use, redux in react, we use `redux-toolkit`
+
+First, we must install **redux** and **redux-toolkit**
+
+```shell
+npm i redux
+npm i @reduxjs/toolkit
 ```
 
-### Store
+Then, we configure a store in **src/app/store.js** or any such dedicated folder. The store is the centre of all the data, it is the single source of truth in the app. 
+
+```js
+// store.js
+
+import { configureStore } from "@reduxjs/toolkit"
+import todoReducers from "../features/todo/todoSlice.js"
+
+export const store = configureStore({
+  reducer: todoReducers
+})
+```
+Here, todoReducers is the reducers that we export from the todoSlice, reducers are the thing that we use to modify the state. A store must get the information about the reducers in order to be created.  
+
+```js
+// todoSlice.js
+
+import { createSlice, nanoid } from "@reduxjs/toolkit";
+
+const initialState = {
+  todos: [{ id: nanoid(5), text: "Hello world" }],
+};
+
+const addTodoFun = (state, action) => {
+  const todo = {
+    id: nanoid(),
+    text: action.payload,
+  };
+  state.todos.push(todo);
+};
+
+const removeTodoFun = (state, action) => {
+    state.todos = state.todos.filter((todo) => todo.id !== action.payload)
+}
+
+export const todoSlice = createSlice({
+  name: "todo",
+  initialState,
+  reducers: {
+    addTodo : addTodoFun,
+    removeTodo : removeTodoFun
+  },
+});
+
+export const {addTodo, removeTodo} = todoSlice.actions;
+export default todoSlice.reducer;ot
+
+```
+
+In the above code file, a lot of things are going on, firstly this is the
+
+
+## Learn more
+
+- [Official Redux Documentation -> https://redux.js.org/tutorials/essentials/part-1-overview-concepts](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
