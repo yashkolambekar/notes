@@ -153,3 +153,52 @@ for(int count = 1; count != 5; count++){
         System.out.println(count);
 }
 ```
+
+## Conditions
+
+### If else
+
+If else statements in Java are quite Straight forward
+
+```java
+if (amt > 100) {
+    amt += 10;
+} else if (amt > 50) {
+    amt += 50
+} else {
+    amt += 100;
+}
+```
+
+## Loops
+
+### For loop 
+
+```java
+for(int i = 0; i < 100; i++){
+    System.out.println("Hello world " + i);
+}
+```
+
+### While loop 
+
+```java
+int i = 1;
+while(i <= target){
+    System.out.println("Hello world while " + i);
+    i++;
+}
+```
+
+We run a while loop when we do not know how many times our loop is going to run.
+
+### Do while loop
+
+```java
+do {
+    ...
+} while (...)
+
+```
+
+The do while loops first runs the code block and then checks the condition
