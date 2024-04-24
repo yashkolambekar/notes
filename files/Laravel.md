@@ -130,10 +130,22 @@ For example, in the above code, `http://localhost/user/delete` will render the `
 
 This will serve the page for all routes that do not exist, basically the 404 page.
 
+
+
 ```php
 Route::fallback(function(){
     return "chal chalke dikha";
 });
+```
+
+---
+
+We can do the command below to show all the registered routes that are created by us in our app
+
+
+
+```shell
+php artisan route:list --except-vendor
 ```
 
 ## Blades
@@ -260,32 +272,171 @@ We can access the parameters inside the `post` view as variables, using `$post_i
 
 There exists a directive named **@includeIf()** which includes the view only if the view exists
 
+## Controller
 
-
-
----
-
-We can do the command below to show all the registered routes that are created by us in our app
+To create a controller in Laravel, we can run this command
 
 ```shell
-php artisan route:list --except-vendor
+php artisan make:controller UserController
 ```
 
+In the above code, UserController is the name of the controller that we want to make, The controller will be made in `app/Http/Controllers`
+
+The name should be In `PascalCase`, it is recommended
+
+Then, we can create methods in the controller that will be used 
+
+```php
+class PageController extends Controller
+{
+    public function greet(){
+        return "Jay Shree Ram bhai ji!";
+    }
+}
+```
+
+Then, we specify it in the router
+
+```php
+Route::get("/greet", [PageController::class, "greet"]);
+```
+
+(We also have to include the PageController using the `use` keyword)
+
+### Controller Group in Router
+
+We do not have to specify the Controller name again and again, we can just specify it once and include the routes under it with the method name
+
+```php
+Route::controller(PageController::class)->group(function () {
+    Route::get("/greet", "greet")->name("greet");
+    Route::get("/greet/{message}", "greetWithMessage")
+    ->name("greetwithmessage");
+});
+```
+
+### Single Action Controller
+
+If we have a controller which does only thing, we can use it directly in the router without having to specify the method. For it to work we need to set the function name `__invoke()`
+
+## Model (Database)
+
+To create tables in our database, we have to run a command in the terminal
+
+```shell
+php artisan make:migration create_students_table
+```
+
+(but we should rather make it using model command)
+
+This will create a migration file which is used to define tables and schema. We have a function named `up()` inside the newly created migration file, we have to define schemas there.
+
+```php
+public function up(): void
+    {
+        Schema::create("students", function (Blueprint $table) {
+            $table->id();
+            $table->string("name", 30);
+            $table->string("city", 15);
+        });
+    }
+```
+
+The `Schema::create` creates a new table.
+
+It's first argument is the table name <br>
+The second argument is a function which takes in `Blueprint $table` as the argument and then columns are defined inside that function
+
+After all that is done, we have to run the migrate command
+
+```shell
+php artisan migrate
+```
+
+### Updating the Table
+
+We have to create migrations for that as well
+
+```shell
+php artisan make:migration update_students_table --table=students
+```
+
+We have to give the --table flag, it is important
+
+Then we can add things in there as we want
 
 
+Remember: DO NOT DELETE Migration files, make new to update the stuff, but never delete.
 
 
+### Rename Columns
 
+```php
+$table->renameColumn('from', 'to');
+```
 
+### Drop / Delete columns
 
+```php
+$table->dropColumn("city");  // single
+$table->dropColumn(["city", "street", "pin"]); // multiple
+```
 
+### Change / Update columns
 
+```php
+$table->string("city", 100)->change();
+$table->string("city", 100)->unsigned()->change();
+```
 
+### Rename Table
 
+```php
+$table->rename("from", "to");
+```
 
+### Constraints
 
-Youtube Playlist: 
+NOT NULL - `nullable()` \
+UNIQUE - `unique()` \
+DEFAULT - `default('value')` \
 
-https://www.youtube.com/playlist?list=PL0b6OzIxLPbz7JK_YYrRJ1KxlGG4diZHJ
+PRIMARY KEY
 
-Video 13 (Controllers) about to start
+```php
+$table->primary('user_id');
+```
+
+FOREIGN KEY 
+
+```php
+$table->unsignedBigInteger("id");
+$table->foreign("user_id")->references("id")->on("users"); 
+```
+
+Remember that the default datatype of `id()` is `Unsigned Big Integer`
+
+### Run SQL commands
+
+If we want to run any SQL statements
+
+```php
+DB::statement("ALTER TABLE users ADD CONSTRAINT age CHECK (age < 18);");
+```
+
+### Constraints
+
+- **Invisible** \
+  This makes the column invisible to normal SQL queries such as SELECT, can be used for password columns or other such sensitive information
+
+  ```php 
+  ->invisible();
+  ```
+
+- **Unsinged** \
+  This makes the INTEGER unsigned, so it cannot be set to a negative value
+
+  ```php
+  ->unsigned();
+  ``` 
+
