@@ -1,5 +1,7 @@
 # Laravel
 
+https://www.youtube.com/playlist?list=PL0b6OzIxLPbz7JK_YYrRJ1KxlGG4diZHJ
+
 Any request made to the app goes to the `/public/index.php` file and then actions are taken from thereon, there is no specific code in that file, it works kind of like a router.
 
 ## Installation
@@ -45,7 +47,6 @@ We get 7 methods in web.php such as get, post, patch, delete, update.
 ### Paramters in Routes
 
 We can also add parameters in the routes to have dynamic data in our webapp, the dynamic variable are passed as arguments to the anonymous functions in the router.
-
 
 ```php
 Route::get("/money/{amt}/{currency}", function(string $amt, string $curr){
@@ -130,8 +131,6 @@ For example, in the above code, `http://localhost/user/delete` will render the `
 
 This will serve the page for all routes that do not exist, basically the 404 page.
 
-
-
 ```php
 Route::fallback(function(){
     return "chal chalke dikha";
@@ -141,8 +140,6 @@ Route::fallback(function(){
 ---
 
 We can do the command below to show all the registered routes that are created by us in our app
-
-
 
 ```shell
 php artisan route:list --except-vendor
@@ -155,6 +152,7 @@ To echo something in page, we have to do
 ```php
 <h1>{{"Hello there, " . $user}}</h1>
 ```
+
 The `<?php ?>` are replaced by `{{}}` and we do not need to specify an echo as well, but this is only for echo and some other blade specific features
 
 But this only echos the string as it is, we cannot use it to echo, for example `<h1>This is my heading</h1>`, the whole thing will be printed as a simple string inside <p>
@@ -176,7 +174,6 @@ To write php code in blade, we have to do:
 
 {{-- This is a comment --}}
 ```
-
 
 ### If else condition in blade
 
@@ -263,11 +260,13 @@ The @include directive is used to include (kind of spawn) any view inside the cu
     @include("about")
 </div>
 ```
+
 We can also send variables to the included view by giving a second argument which will be an array
 
 ```php
 @include("post", ['post_id' => 82923, 'author' => 'Yash'])
 ```
+
 We can access the parameters inside the `post` view as variables, using `$post_id` and `$author`
 
 There exists a directive named **@includeIf()** which includes the view only if the view exists
@@ -284,7 +283,7 @@ In the above code, UserController is the name of the controller that we want to 
 
 The name should be In `PascalCase`, it is recommended
 
-Then, we can create methods in the controller that will be used 
+Then, we can create methods in the controller that will be used
 
 ```php
 class PageController extends Controller
@@ -319,7 +318,7 @@ Route::controller(PageController::class)->group(function () {
 
 If we have a controller which does only thing, we can use it directly in the router without having to specify the method. For it to work we need to set the function name `__invoke()`
 
-## Model (Database)
+## Migration (Database)
 
 To create tables in our database, we have to run a command in the terminal
 
@@ -365,9 +364,7 @@ We have to give the --table flag, it is important
 
 Then we can add things in there as we want
 
-
 Remember: DO NOT DELETE Migration files, make new to update the stuff, but never delete.
-
 
 ### Rename Columns
 
@@ -395,23 +392,17 @@ $table->string("city", 100)->unsigned()->change();
 $table->rename("from", "to");
 ```
 
-### Constraints
-
-NOT NULL - `nullable()` \
-UNIQUE - `unique()` \
-DEFAULT - `default('value')` \
-
-PRIMARY KEY
+### PRIMARY KEY
 
 ```php
 $table->primary('user_id');
 ```
 
-FOREIGN KEY 
+### FOREIGN KEY
 
 ```php
 $table->unsignedBigInteger("id");
-$table->foreign("user_id")->references("id")->on("users"); 
+$table->foreign("user_id")->references("id")->on("users");
 ```
 
 Remember that the default datatype of `id()` is `Unsigned Big Integer`
@@ -426,10 +417,28 @@ DB::statement("ALTER TABLE users ADD CONSTRAINT age CHECK (age < 18);");
 
 ### Constraints
 
+- **NOT NULL**
+
+  ```php
+  ->nullable();
+  ```
+
+- **UNIQUE**
+
+  ```php
+  ->unique();
+  ```
+
+- **DEFAULT**
+
+  ```php
+  ->default("value");
+  ```
+
 - **Invisible** \
   This makes the column invisible to normal SQL queries such as SELECT, can be used for password columns or other such sensitive information
 
-  ```php 
+  ```php
   ->invisible();
   ```
 
@@ -438,5 +447,124 @@ DB::statement("ALTER TABLE users ADD CONSTRAINT age CHECK (age < 18);");
 
   ```php
   ->unsigned();
-  ``` 
+  ```
 
+## Seeding
+
+Seeding means to add fake / temporary data in the fields to work with some dummy data.
+
+First we create a model using the artisan command
+
+```shell
+php artisan make:model ModelName
+```
+
+Then, we create a seeder file using the artisan command
+
+```shell
+php artisan make:seeder SeederName
+```
+
+After that is done, we have to define what data we have to insert, inside the Seeder file:
+
+```php
+use App\Models\student;
+.
+.
+.
+public function run(): void
+    {
+        student::create([
+            "name" => "Yash",
+            "email" => "y@yassh.in",
+            "class" => "13th"
+        ]);
+    }
+```
+
+Then, we call this seeder inside the DatabaseSeeder file
+
+```php
+public function run(): void
+    {
+        $this->call([StudentSeeder::class]);
+    }
+```
+
+We can add multiple seeders in the array of seeders to call them.
+
+TO insert multiple records at once
+
+```php
+$students->each(function ($student) {
+            student::create([
+                "name" => $student->name,
+                "email" => $student->email
+            ]);
+        });
+```
+
+Here, the `$students` must be a `collect`
+
+We have to compulsorily have timestamps() in our schema if we are using the create method
+
+### Fake records
+
+```php
+for( $i = 0; $i < 10; $i++ ){
+    student::create([
+        "name" => fake()->name(),
+        "email" => fake()->email()
+    );
+}
+```
+
+## Factory 
+
+Factories allows us to easily populate our datbases with fake data
+
+First we need to create a model 
+
+```shell
+php artisan make:model student
+```
+
+Then we create the factory
+
+```shell
+php artisan make:factory studentFactory
+```
+
+after this, we specify what fake data we need inside the newly created factory
+
+```php
+public function definition(): array
+{
+    return [
+        "name" => fake()->name(),
+        "email" => fake()->email()
+    ];
+}
+```
+
+after this, we go to include the file in the DatabaseSeeder.php file and after that we specify how many counts of data we want
+
+```php
+public function run(): void
+{
+    student::factory()->count(10)->create();
+}
+```
+
+here, we are creating 10 records of students from the fake methods we have specified in the student factory
+
+To create the model and factory together with one command, we can do
+
+```shell
+php artisan make:model teacher -f
+```
+
+The `-f` flag makes the factory
+
+
+# On video 20
