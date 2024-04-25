@@ -78,7 +78,7 @@ const initialState = {
 
 const addTodoFun = (state, action) => {
   const todo = {
-    id: nanoid(),
+    id: nanoid()
     text: action.payload,
   };
   state.todos.push(todo);
@@ -98,7 +98,7 @@ export const todoSlice = createSlice({
 });
 
 export const {addTodo, removeTodo} = todoSlice.actions;
-export default todoSlice.reducer;ot
+export default todoSlice.reducer;
 
 ```
 

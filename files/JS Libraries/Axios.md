@@ -1,67 +1,55 @@
-to start using Axios we have to first install it using npm
+### Axios
+
+Axios is a module for http requests, this module reduces the hustle, bustle that goes behind making http requsts
+
+To install it we have to run
 
 ```console
 npm install axios
 ```
 
-and then we have to import it in our React app
+Axios works on the basis of javascript promises, for example, to make a simple get request we can do
 
-```js
-import axios from "axios"
+```jsx
+const promise = axios.get("http://localhost:3001/notes");
+promise.then((response) => {
+  console.log(response);
+});
 ```
 
-The biggest mistake I do while writing the word Axios is, I write it as axious, so dear self please remember the correct name
+However we do not handle promises in this way, we use `then` and `catch`
 
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-When we need to use axios synchronously, we use them with the help of `IIFE` which stands form Immediately Invoked Function Expression. These look something like
-
-```js
-;()();
+```jsx
+axios.get("http://localhost:3001/notes").then((response) => {
+  const notes = response.data;
+  console.log(notes);
+});
 ```
 
-yes, that thing right there is a valid javascript expression and it is not only a valid javascript expression. It is quite useful in many cases
+Put method in http
 
-The first `;` is to end all the previous statements that might have not been terminated. The first `()` is where we define the function and then `()` is where we call the function and the second `;` ends it all.
-
-We will use these to enable use to use `async await` in our axios functions
-
-For example
-
-```js
-;(async () => {
-      const response = await axios.get("/api/products");
-      setProducts(response.data)
-  })();
+```jsx
+axios.put(url, changedNote).then((response) => {
+  setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
+});
 ```
 
-We are escaping the use of `then` and `catch` here. We are storing the response in the response variable and then directly using it in the next line.
+This method, name `put` changes the value of an object in the server.
 
-But that does not mean we have to compromise on the error handling, we can use `try catch` to do that
+<br>
+
+We can isolate the axios functions in a different module and make the usage of axios more easier according to our webapp. Example: 
 
 ```js
-;(async () => {
-      try {
-        const response = await axios.get("/api/productsd");
-        console.log(response.data);
-        setProducts(response.data)
-      } catch (error) {
-        // Handle the axios error
-      }
-    })();
+const getAll = () => {
+    const request = axios.get(baseUrl);
+    return request.then(response => response.data)
+}
 ```
 
-In the above example, we will handle the error perfectly while our whole axios function is now synchronous.
+So now in our main app we can just do 
+```js
+services.getAll().then(data => {console.log(data)})
+```
+
+this saves us a lot of boiler plate code in our main app
