@@ -591,6 +591,8 @@ The methods available to us are
 - Update - update()
 - Delete - delete()
 
+### Read Data
+
 We have to make a function inside the controller which will be ued to return data
 
 ```php
@@ -679,4 +681,99 @@ To sort the returned result in your query we can use the `orderBy` method
 
 We can also chain multiple orderBy methods 
 
-# Video no 21
+### Adding data to the database
+
+- Insert
+
+  We use the `insert()` method to add data into the database
+  
+  ```php
+  public function createStudent(String $name, String $email){
+      DB::table("students")->insert([
+          "name" => $name,
+          "email" => $email
+      ])
+  }
+  ```
+  
+  This is how we insert something in the database, we can also pass an array of arrays to insert more than one data in there
+  
+- Insert or Ignore
+
+  We also have `insertOrIgnore` method which does not throw an error if the error operation fails, it simply returns an false value which we should store and handle
+
+- Insert Get ID
+  
+  The `insertGetId` method inserts the data and returns the id of the inserted row.
+
+- Upsert
+
+  We have a function with the name `upsert` which we can use to update the existing rows with unique identifiers, for example, we will edit the student's class and divison based on their roll number 
+
+  ```php
+  DB::table("students")->upsert([
+    "class" => 10,
+    "division" => "B"
+  ],
+  [
+    "email"
+  ])
+  ```
+
+  The upsert function takes in two parameters, first is the associative array of columns that have to be updated and second is the unique identifier
+
+  We can also add a third parameter which specifies which specific column needs to tbe updated in case we do not want to use all the provided values.
+
+- Update or Insert
+
+  The `updateOrInsert` updates the data if the given row exists or else it just inserts the data into a new row. For this to work we have to give two arguments
+
+  First argument is the data that we want to check for in a associative array and second parameter is the data we want to update in a associative arrow
+
+  ```php
+  DB::table("students")->updateOrInsert([
+    'email' => "ceo@google.com",
+    'name' => 'Sundar Picchai'
+  ],
+  [
+    'age' => 34
+  ]);
+  ```
+
+  In the above example if the email and name exists, the age will be updated of the matched row or if that does not exist, a new row will be created with the given email, name and age.
+
+- Increment
+
+  The increment method incremenets a column by 1 
+
+  ```php
+  DB::table("students")->where("id", 23)->increment("age");
+  ```
+
+  We can pass second parameter to incremenet the age  by that much amount of number, default is 1
+
+  We also have the `decrement` method which works in similar way.
+
+- Increment Each
+
+  We also have a method which helps us to increment multiple values at the same time
+
+   ```php
+  DB::table("students")->where("id", 3)->incrementEach([
+    "age" => 2,
+    "vote" => 1
+  ])
+   ```
+
+### Deleting
+
+- Delete
+  
+  We have a simple method named `delete` which let's us delete rows. This can remove multiple rows too
+
+  ```php
+  DB::table("students")->where("id", 7)->delete();
+  ```
+
+
+# 22nd video se start karo
