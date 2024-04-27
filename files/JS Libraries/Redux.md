@@ -62,7 +62,9 @@ import { configureStore } from "@reduxjs/toolkit"
 import todoReducers from "../features/todo/todoSlice.js"
 
 export const store = configureStore({
-  reducer: todoReducers
+  reducer: {
+    todo: todoReducers
+  }
 })
 ```
 Here, todoReducers is the reducers that we export from the todoSlice, reducers are the thing that we use to modify the state. A store must get the information about the reducers in order to be created.  

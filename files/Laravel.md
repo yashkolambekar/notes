@@ -566,5 +566,117 @@ php artisan make:model teacher -f
 
 The `-f` flag makes the factory
 
+We can also club the `-c` flag to make a controller with the hand
 
-# On video 20
+
+## Query Builder
+
+Query builders are made in the Controllers, these are used to perform CRUD operations in the database
+
+The first step is to make a controller file using the artisan make command
+
+```shell
+php artisan make:controller UserController
+```
+
+Once the controller is made, we need to include the db class inside that file
+
+```php
+use Illuminate\Support\Facades\DB;
+```
+
+The methods available to us are 
+- Read - get()
+- Insert - insert()
+- Update - update()
+- Delete - delete()
+
+We have to make a function inside the controller which will be ued to return data
+
+```php
+public function show(){
+    $users = DB::table("users")->get();
+    return $users;
+}
+```
+
+the function `show()` will return all the users in the JSON format, to call this function, we will need to call it in a route
+
+```php
+Route::get("/showstudents", [StudentController::class,"show"]);
+```
+
+To call the function anywhere else in the application, we have to do
+
+```php
+$users = app()->call(StudentController::class . '@show');
+```
+
+We can add aditional constraints or specifications on top of the get query, such as select specific fields only or where clause
+
+#### Select specific columns
+
+```php
+$student = DB::table("students")->select(["id", "email"])->get();
+```
+
+Here we have select specificed specific columns using the `select()` function before we call the `get()`
+
+#### Select as
+
+To select a column with an alias name,
+
+```php
+$student = DB::table("students")->select(["id as roll_number", "email as student_email"])->get();
+```
+
+#### Distinct
+
+We can use the `->distinct()` method to select only the unique columns
+
+
+#### Where clause 
+
+```php
+$student = DB::table("students")->where("id",">" ,5)->get();
+```
+
+Where clause can be applied by using the `where` function, here we are selecting "id" which have value more (>) than 5
+
+We can also chain more than one where functions / classes
+
+- **AND WHERE** \
+  This is similar to WHERE "" AND  WHERE ""
+  ```php
+  $student = DB::table("students")->where("id",">" ,5)->where("id", "<", 8)->get();
+  ```
+  We can also pass an array of associative arrays inside the `where` clause for the same functionality
+
+- **OR WHERE** \
+  This is similar to WHERE "" OR WHERE ""
+  ```php
+  $student = DB::table("students")->where("id", ">", 5)->orWhere("age", ">", 18)->get();
+  ```
+
+- **More where methods** \
+  There are more where methods which can be used
+  - whereBetween()
+  - whereIn()
+  - whereNull()
+  - whereMonth()
+  - whereDay()
+  - whereYear()
+  - whereTime()
+  - whereNull()
+  
+#### Order by
+
+To sort the returned result in your query we can use the `orderBy` method
+
+```php
+  $student = DB::table("students")->orderBy("age")->get();
+```
+
+We can also chain multiple orderBy methods 
+
+# Video no 21
