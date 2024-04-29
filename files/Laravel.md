@@ -775,5 +775,24 @@ We can also chain multiple orderBy methods
   DB::table("students")->where("id", 7)->delete();
   ```
 
+### POST
 
-# 22nd video se start karo
+```php
+Route::post("/newusr", [UserController::class, "new"]);
+```
+
+This route accepts a post request from the client, to handle it we should have a function which takes  in a `Request` object as an argument
+
+```php
+public function new(Request $req){
+    return $req;
+}
+```
+
+The above function simply returns the POST request made in "/newusr" route in JSON format
+
+This allows us to handle POST request in a very simple form without a lot of hasssle.
+
+We must note that the `POST` methods made in the `web.php` router will work only with Blade files by default. Because of the CSRF stuff. So we will need to make the routes with POST handlers in the `api.php` router, hence our current route will become "/api/newusr"
+
+# Video 27 se shuru kare
