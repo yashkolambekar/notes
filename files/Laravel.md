@@ -155,7 +155,7 @@ The optional parameter should be at the end of URL only, cannot come in between 
 We can also validate the parameters by REGEX using the `where` method
 
 ```php
-Route::get('/user/{id}/{name}', function (string $id, string $name) {
+Route::get('/user/{name}', function (string $name) {
     // ...
-})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+})->where('name', '[A-Za-z]+');
 ```
