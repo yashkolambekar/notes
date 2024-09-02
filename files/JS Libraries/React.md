@@ -87,5 +87,22 @@ This is how we can use ternary operators inside jsx for conditional rendering it
 
 We can also use `&&` and `||` for conditional rendering based on the concept of truthy and falsy values. 
 
-<hr>
+## React.memo
 
+If we have a lot of components on the same page and a lot of re-renders are happenig, we do not want every change to trigger a re render, so we use the React.memo 
+
+A *memoised* component will only re-render when the props are changed
+
+```jsx
+const Comments = React.memo((title, description) => {
+  return (
+    <>
+    // Content here
+    </>
+  )
+})
+```
+
+Now, in the above component, if we have 100 comment components on a page and all are controlled from the parent's state, generally, all will re-render if even one of the comment is changed, but because we are using memo, only the comment whose props are changed will be re-rendered!
+
+> UseMemo and React.memo are different!
