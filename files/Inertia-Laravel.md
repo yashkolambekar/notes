@@ -212,3 +212,48 @@ const Profile = ({name}) => {
     );
 }
 ```
+
+### Creating a layout
+
+Make a file in a new folder named Layouts (good practice) for the same directory as Pages folder
+
+In that we can make a layout
+
+```jsx
+const Layout = ({children}) => {
+    return (
+        <>
+            <header>
+                <nav>
+                    <a className="p-2" href="/">Home</a>
+                    <a className="p-2" href="/user">User</a>
+                    <a className="p-2" href="/contact">Contact</a>
+                </nav>
+            </header>
+
+            <main>
+                {children}
+            </main>
+
+        </>
+    )
+}
+
+export default Layout;
+```
+
+Now, to use it with any component, we just have to 
+
+```jsx
+// in the Home.jsx file
+...
+Home.layout = page => <Layout children={page} />
+export default Home;
+```
+
+We can make more than one layout as we want, this is just the way to do it.
+
+## Link vs Anchor
+
+We can use the Link element provided by inertia-react to do navigation without page reload, but if we want to open non-inertia pages, we need to use anchor tags
+
