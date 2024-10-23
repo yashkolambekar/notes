@@ -109,3 +109,16 @@ but just doing this will not make it work, we need to add an component named `<O
 ```
 
 We can also wrap all such routes in a parent route without defining the parent's path, it will remove the prefix path but will work the same way using `outlet`
+
+## Redirecting without the \<Link> element
+
+We use `window.location.href` normally to redirect using javascript, but this makes a network request and our page is not changed in a SPA way, to replace it, we can use the `useNavigate` hook
+
+
+```js
+const navigate = useNavigate()
+navigate("/dashboard");
+```
+
+
+We cannot invoke or use the `useNavigate` hook outside of the BrowserRouter. Which means, in the general context, we cannot use the useNavigate hook in the App.jsx component directly.

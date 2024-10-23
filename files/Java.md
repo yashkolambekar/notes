@@ -201,4 +201,6 @@ do {
 
 ```
 
-The do while loops first runs the code block and then checks the condition
+The do while loops first runs the code block and then checks the condition \
+The do while loop will always run at least once
+

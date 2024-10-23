@@ -106,3 +106,72 @@ const Comments = React.memo((title, description) => {
 Now, in the above component, if we have 100 comment components on a page and all are controlled from the parent's state, generally, all will re-render if even one of the comment is changed, but because we are using memo, only the comment whose props are changed will be re-rendered!
 
 > UseMemo and React.memo are different!
+
+
+## useEffect()
+
+The `useEffect()` hook allows us to perform sideffects which can't/should not be done using rendering.
+
+
+```js
+useEffect(() => {
+  // code goes here
+}, [])
+```
+
+The useEffect hook takes in 2 arguments, the first argument is a function that will run, and the second is the dependency array which contains the states which decides when the useEffect will run.
+
+The main function in the useEffect hook cannot be async function, if we want to have it, we can use an additional library which provides that functionality
+
+
+## useMemo
+
+useMemo hook is used for memoization of functions, it means, if the inputs of the function are not changing, the function will not be ran and the last output will be given again.
+
+This is useful only for the functions which give consistent output for consistent input, which means, one set of input can produce only one output, no matter when and how many times it runs.
+
+we run useMemo just like use effect, one function and one dependency array
+
+```js
+const sum = useMemo(()=> {
+  let tempSum = 0;
+  for(let i = 0; i <= target; i++){
+    tempSum += i;
+  }
+  return tempSum;
+}, [target]);
+```
+
+## useCallback 
+
+useCallback is the useMemo for functions!
+
+```js
+const getSum = useCallback(() => {
+  let tempSum = 0;
+  for(let i = 0; i <= target; i++){
+    tempSum += i;
+  }
+  return tempSum;
+}, [target])
+
+```
+
+## Lazy Loading
+
+We may not want to send the whole app's code at once to the user as it will increase the overhead and user has to download a lot of unused stuff, to solve this, we can send our app in parts, it is called lazy loading
+
+To use lazy loading, we just have to change the way in which we import the components
+
+```jsx
+import {Suspense, lazy} from "react";
+const Dashboard = lazy(() => import("../components/Dashboard"));
+...
+...
+...
+<div>
+  <Routes>
+    <Route path="/dash" element={<Suspense fallback={"loading..."}><Dashboard /></Suspense>}>
+  </Routes>
+<div>
+```

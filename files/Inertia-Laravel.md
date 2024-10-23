@@ -7,7 +7,7 @@ Inertia.js is used to glue the backend with frontend in Inertia
 1. Install react and react-dom
 
     ```shell
-    npm react react-dom
+    npm i react react-dom
     ```
 
 2. Install vite
@@ -257,3 +257,17 @@ We can make more than one layout as we want, this is just the way to do it.
 
 We can use the Link element provided by inertia-react to do navigation without page reload, but if we want to open non-inertia pages, we need to use anchor tags
 
+## Blank page shows up on Local Network
+
+Add this to your vite.config.json
+
+```js
+server: {
+        host: '0.0.0.0', // Bind to all IPs
+        port: 5173, // Keep the port as 5173 or change it if necessary
+        hmr: {
+          host: '192.168.0.101', // Replace with your machine’s local IP address
+          port: 5173, // Ensure this matches the server port
+        },
+      },
+```

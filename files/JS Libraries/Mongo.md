@@ -1,4 +1,6 @@
-Mongo is a NoSQL database used for storage, processing and retrieval of data. Mongo is a non-relational database. The data in Mongo is stored in the form of Javascript Objects
+# Mongo
+
+**Mongo** is a NoSQL database used for storage, processing and retrieval of data. Mongo is a non-relational database. The data in Mongo is stored in the form of Javascript Objects
 
 To use mongodb with our node app we need to install `mongoose`
 
@@ -26,7 +28,11 @@ mongoose.connect(url)
 
 First we connect mongoose using the url
 
+## Schema
+
 Then we need to create a Schema using `mongoose.Schema`, that method takes in an object and then we have to save that schema in a new constant
+
+This is generally saved in a different file, a new file for each mode
 
 ```js
 const userSchema = new mongoose.Schema({
@@ -42,6 +48,22 @@ using `mongoose.model`
 ```js
 module.exports = mongoose.model("User", userSchema)
 ```
+
+so the whole thing above is supposed to be in a file, `User.js` which looks like
+
+```js
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    location: String 
+})
+
+module.exports = mongoose.model("User", userSchema);
+```
+
+## Adding Data
 
 To create a new user in the database, we can do
 

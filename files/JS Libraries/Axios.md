@@ -1,4 +1,4 @@
-### Axios
+# Axios
 
 Axios is a module for http requests, this module reduces the hustle, bustle that goes behind making http requsts
 
