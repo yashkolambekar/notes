@@ -1,5 +1,7 @@
 # SQL Alchemy
 
+[Youtube Playlist](https://www.youtube.com/playlist?list=PLKm_OLZcymWhtiM-0oQE2ABrrbgsndsn0)
+
 ## Installation
 
 ```shell
@@ -129,4 +131,27 @@ We can also have `or` operator
 
 ```py
 users = session.query(User).where(or_(User.age >= 18, User.name="Yash")).all()
+```
+
+or we can use better sytanx, but each condtion have to wrapped in a paranthesis
+
+
+```py
+users = session.query(User).where((User.age >= 18) | (User.name = "Yash")).all()
+```
+
+We have `and_`, `not_` and `or_` operators, we have to import them from sqlalchemy. We can use on inside the other to make complex queries
+
+### Conditional chaining
+
+```py
+users = session.query(User)
+
+if locals_only:
+    users = users.filter(User.location = "local")
+
+if males_only:
+    users = users.filter(User.gender = "m")
+
+users = users.all()
 ```
