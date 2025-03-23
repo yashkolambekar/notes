@@ -10,7 +10,7 @@ pip install "fastapi[standard]"
 ## Running the app
 
 ```py
-from FastAPI import fastapi
+from fastapi import FastAPI
 app = FastAPI()
 
 @app.get("/")
@@ -25,7 +25,7 @@ To return we can return a dict, list, singular values as str, int, etc.
 This is the most basic FastAPI app, the starter template, to run it we have to run this in the shell
 
 ```shell
-fastapi serve main.py
+fastapi dev main.py
 ```
 
 ## Parameters

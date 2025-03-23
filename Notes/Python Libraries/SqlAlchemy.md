@@ -155,3 +155,23 @@ if males_only:
 
 users = users.all()
 ```
+
+## Modifying
+
+After we get a row from search methods, we can modify them directly by treating the objects. For example
+
+```python
+user = session.query(User).filter_by(User.username="something").first()
+user.number_of_logins += 1
+session.commit()
+```
+
+For some datatypes, like JSON, we need to flag them as modified because sqlalchemy cannot dectect if they are changed or not
+
+```python 
+from sqlalchemy.orm.attributes import flag_modified
+...
+user.remember_token.append(password)
+flag_modified(user, "remember_token")
+session.commit()
+```

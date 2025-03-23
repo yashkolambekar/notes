@@ -1,4 +1,4 @@
-# Recoil 
+# Recoil
 
 ```shell
 npm i recoil
@@ -13,11 +13,11 @@ we have a `/store` folder in the `/src` folder or anywhere else. And we have `/a
 For example, `/src/store/atoms/Count.js` looks like
 
 ```js
-import {atom} from "recoil";
+import { atom } from "recoil";
 
 const countAtom = atom({
-    key: "countAtom",
-    default: 100
+  key: "countAtom",
+  default: 100,
 });
 
 export default countAtom;
@@ -54,7 +54,6 @@ const setCount = useSetRecoilState(countAtom);
 ```
 
 This function is used to update the state/atom. We cannot read the value, this might come handy when we have to set the value of atom from user input or some other external source.
-
 
 ### useRecoilState
 
