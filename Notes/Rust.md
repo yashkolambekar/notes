@@ -4,6 +4,7 @@ fn main () {
 	println!("Hello, World!");
 }
 ```
+
 The first hello world function. The **main** is the first function that runs in any file.
 #### Cargo
 
@@ -43,7 +44,41 @@ fn main() {
 ```
 
 We will be able to understand this code better if we have worked with `c` or `java` before. Firstly we import the `std` library's `io` library. Then in the main function we start with greeting the user and all. 
-We then 
+
+We then define a mutable variable named `guess` with `let mut guess`, if we did not include mut, the variable will be immutable by default.
+
+`io::stdin().read_line()` function reads the value from terminal and writes the value to the guess using the `&mut guess` reference. 
+
+The `.expect()` function works on what is returned from the `read_line()` function, it returns either Ok or Err.
+
+At the end, we use string constructor and insert the `guess` variable at the place of `{}`.
+
+#### Shadowing
+
+```rust
+let mut guess = String::new();
+
+io::stdin().read_line(&mut guess)
+	.expect("Failed to read line");
+
+let guess: u32 = guess.trim().parse()
+	.expect("Please type a number!");
+```
+
+Shadowing is the concept of redefining an already defined variable, rust allows this. This is done in cases where we want to change the type of a variable without creating a new variable.
+
+**Loop**
+
+```rust
+loop {
+	// code goes here
+}
+```
+
+The `loop` is an infinite loop which will keep running till some error occurs (of course the program will break) or we hit a `break` statement.
+
+
+
 
 
 
